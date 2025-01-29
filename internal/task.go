@@ -15,8 +15,16 @@ type Task struct {
 
 func AddTask(description string) {
 	tasks, _ := LoadTasks()
+
+	highestID := 0
+	for _, task := range tasks {
+		if task.ID > highestID {
+			highestID = task.ID
+		}
+	}
+
 	newTask := Task{
-		ID:          len(tasks) + 1,
+		ID:          highestID + 1,
 		Description: description,
 		Status:      "todo",
 		CreatedAt:   time.Now(),
@@ -27,14 +35,24 @@ func AddTask(description string) {
 	fmt.Println("Task added successfully (ID:", newTask.ID, ")")
 }
 
-func ListTasks() {
+func ListTasks(status string) {
 	tasks, _ := LoadTasks()
 	if len(tasks) == 0 {
 		fmt.Println("No tasks found.")
 		return
 	}
+
+	if status == "" {
+		for _, task := range tasks {
+			fmt.Printf("[%d] %s (%s)\n", task.ID, task.Description, task.Status)
+		}
+		return
+	}
+
 	for _, task := range tasks {
-		fmt.Printf("[%d] %s (%s)\n", task.ID, task.Description, task.Status)
+		if task.Status == status {
+			fmt.Printf("[%d] %s (%s)\n", task.ID, task.Description, task.Status)
+		}
 	}
 }
 

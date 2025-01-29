@@ -23,7 +23,16 @@ func main() {
 		internal.AddTask(os.Args[2])
 
 	case "list":
-		internal.ListTasks()
+		if len(os.Args) > 3 {
+			fmt.Println("Usage: task-cli list or task-cli list <task status>")
+			return
+		}
+
+		if len(os.Args) == 2 {
+			internal.ListTasks("")
+		} else if len(os.Args) == 3 {
+			internal.ListTasks(os.Args[2])
+		}
 
 	case "update":
 		if len(os.Args) < 4 {
