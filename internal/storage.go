@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-const fileName = "tasks.json"
+const fileName = "config/tasks.json"
 
 func LoadTasks() ([]Task, error) {
 	if _, err := os.Stat(fileName); errors.Is(err, os.ErrNotExist) {
